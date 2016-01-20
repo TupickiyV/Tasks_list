@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def home
-    @tasks = Task.all
+    @tasks = current_user.tasks
   end
 end

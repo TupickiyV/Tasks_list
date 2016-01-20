@@ -7,14 +7,14 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.create(task_params)
-    @tasks = Task.all
+    @tasks = current_user.tasks
     render :hide_form
   end
 
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
-    @tasks = Task.all
+    @tasks = current_user.tasks
   end
 
   def edit
@@ -25,13 +25,13 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     @task.update_attributes(task_params)
-    @tasks = Task.all
+    @tasks = current_user.tasks
     render :hide_form
   end
 
   private
 
   def task_params
-    params.require(:task).permit(:title, :note, :completed)
+    params.require(:task).permit(:title, :completed).merge(user: current_user)
   end
 end
